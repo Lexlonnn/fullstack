@@ -14,15 +14,20 @@ import {
   ComponentNestingAnimation,
   JSXTransformAnimation,
 } from "@/components/slide-animations"
+import InteractiveTerminal from "@/components/interactive-terminal"
+import InteractiveBranching from "@/components/interactive-branching"
+import InteractiveWorkflow from "@/components/interactive-workflow"
+import { GitVsGithubVisual, ConfigTerminalVisual } from "@/components/slide-visuals"
 
 type Slide = {
   id: number
-  type: "title" | "content" | "conclusion"
+  type: "title" | "content" | "conclusion" | "interactive-sandbox" | "interactive-branching" | "interactive-workflow"
   title: string
   subtitle?: string
   points?: string[]
   footer?: string
   visualSuggestion?: string
+  visualComponent?: () => JSX.Element
   speakerNotes?: string[]
   animation?: () => JSX.Element
 }
@@ -31,88 +36,159 @@ const slides: Slide[] = [
   {
     id: 1,
     type: "title",
-    title: "The Evolution of the Web: From HTML to Next.js",
-    subtitle: "Web Development",
-    animation: BuildingBlocksAnimation,
+    title: "Git & GitHub: The Essentials",
+    subtitle: "Version control and your first open-source contribution.",
+    animation: CodeMorphAnimation,
   },
   {
     id: 2,
     type: "content",
-    title: "The \"Stone Age\" – Plain HTML",
-    subtitle: "In the beginning, we wrote every page by hand",
+    title: "What is Version Control?",
+    subtitle: "Why do we even need Git?",
     points: [
-      "The concept: every page was written and managed manually.",
-      "The problem: if a site had 50 pages, changing one logo meant editing 50 files.",
-      "Teams spent more time maintaining files than improving the product.",
-      "Key takeaway: HTML is great for content, but terrible for management at scale.",
+      "Have you ever named files like 'final_report_v2_real_final_this_one.docx'?",
+      "Version Control Systems (VCS) solve this problem. They record changes to a file or set of files over time so that you can recall specific versions later.",
+      "It allows teams to work on the same project simultaneously without overwriting each other's work."
     ],
-    animation: SpeedIndicatorsAnimation,
+    animation: JSXTransformAnimation,
   },
   {
     id: 3,
     type: "content",
-    title: "The \"Industrial Revolution\" – Enter React",
-    subtitle: "The solution: components",
+    title: "Git vs. GitHub: What's the Difference?",
+    subtitle: "They sound similar, but they do completely different jobs.",
     points: [
-      "Instead of rebuilding the same UI on every page, we create reusable components.",
-      "One shared Header component can be used across the whole app.",
-      "Change the logo once, and every page updates instantly.",
-      "This introduced real reuse and faster team productivity.",
+      "Git: The Engine. It's a free program installed locally on your computer. It acts as a 'time machine', tracking every save and change you make to your files.",
+      "GitHub: The Cloud. It's a website where you can upload your Git repositories. It allows you to back up your code, share it with the world, and collaborate with teams."
     ],
-    visualSuggestion: "A Lego brick labeled 'Navbar' being snapped onto different pages.",
-    animation: ComponentBoxesAnimation,
+    visualComponent: GitVsGithubVisual,
+    animation: BuildingBlocksAnimation,
   },
   {
     id: 4,
     type: "content",
-    title: "The \"React Hangover\" – Why React wasn’t enough",
-    subtitle: "The issue: Client-Side Rendering (CSR)",
+    title: "Setting Up Your Identity",
+    subtitle: "Before taking a snapshot, Git needs to know who is holding the camera.",
     points: [
-      "Users may see a blank white screen briefly while JavaScript loads.",
-      "Search bots struggle to see content quickly in pure CSR pages.",
-      "SEO quality can drop when content isn’t immediately available.",
-      "Users on slow phones and networks feel this delay the most.",
+      "Every time you save a snapshot (a commit), Git attaches a name and email to it. This way, everyone knows who made which change.",
+      "You only need to run these setup commands once on your computer.",
+      "Tip: Make sure to use the same email address that you used to sign up for your GitHub account!"
     ],
-    animation: CodeMorphAnimation,
+    visualComponent: ConfigTerminalVisual,
+    animation: SetupChecklistAnimation,
   },
   {
     id: 5,
-    type: "content",
-    title: "The Superhero – Next.js",
-    subtitle: "A framework built on top of React",
+    type: "interactive-sandbox",
+    title: "The Daily Cycle: Stage & Commit",
     points: [
-      "The big win: Server-Side Rendering (SSR).",
-      "The server prepares the page before sending it to the user.",
-      "Users see real content instantly on first load.",
-      "Analogy: React is the ingredients; Next.js is the cooked meal delivered to your table.",
+      "Try moving files to the Staging Area, and then taking a Snapshot (Commit).",
+      "Hint: use 'git add .' and 'git commit -m \"message\"'."
     ],
-    animation: SetupChecklistAnimation,
+    animation: SpeedIndicatorsAnimation,
   },
   {
     id: 6,
     type: "content",
-    title: "Managing Your Tools – What is a Package Manager?",
+    title: "Reviewing History: Log & Diff",
+    subtitle: "Seeing what changed and who changed it.",
     points: [
-      "Every project needs tools and libraries to work efficiently.",
-      "A package manager is like an app store for your code.",
-      "The package.json file is your shopping list.",
-      "It tells your computer exactly which tools to download so the app runs correctly.",
+      "'git log': Shows a list of all the commits (snapshots) made in the project. It shows the author, date, and commit message.",
+      "'git diff': Shows exactly which lines of code were added or deleted since your last commit.",
+      "These tools are essential for figuring out exactly when a bug was introduced!"
     ],
-    animation: ComponentNestingAnimation,
+    animation: ComponentBoxesAnimation,
   },
   {
     id: 7,
-    type: "content",
-    title: "NPM vs. PNPM – The Great Choice",
-    points: [
-      "NPM: the standard and reliable option, but heavy over time.",
-      "NPM often downloads duplicate copies of the same tools per project.",
-      "PNPM: the smarter option that shares one tool copy across projects.",
-      "PNPM reduces disk usage and speeds up installs in day-to-day development.",
-    ],
-    speakerNotes: ["PNPM saves your hard drive and your time."],
-    animation: JSXTransformAnimation,
+    type: "interactive-branching",
+    title: "Branching: Safe Parallel Universes",
+    subtitle: "Never work directly on the main branch. Try creating a feature branch, committing, and merging.",
+    animation: ComponentNestingAnimation,
   },
+  {
+    id: 8,
+    type: "content",
+    title: "Ignoring Files: .gitignore",
+    subtitle: "Some things should stay secret or stay local.",
+    points: [
+      "You don't want to commit everything to Git. Things like password files (.env) or massive downloaded folders (node_modules) should be ignored.",
+      "Create a file named literally '.gitignore' and list the file or folder names you want Git to pretend don't exist.",
+      "If a file is in your .gitignore, Git will never ask you to stage or commit it."
+    ],
+    animation: SetupChecklistAnimation,
+  },
+  {
+    id: 9,
+    type: "content",
+    title: "Saving for Later: Stashing",
+    subtitle: "When you aren't ready to commit, but need to switch tasks.",
+    points: [
+      "Imagine you are halfway through writing a feature, and your boss asks you to fix an urgent bug on the main branch.",
+      "You can't switch branches with uncommitted changes! But you also aren't ready to take a snapshot yet.",
+      "Run 'git stash'. It takes your messy desk and shoves it in a drawer temporarily. Your working directory is now clean!",
+      "When you come back, run 'git stash pop' to put everything back on your desk."
+    ],
+    animation: SpeedIndicatorsAnimation,
+  },
+  {
+    id: 10,
+    type: "content",
+    title: "Undoing Mistakes",
+    subtitle: "Git is a time machine. You can always go back.",
+    points: [
+      "'git restore <file>': Throw away the changes you just made to a file and go back to the last saved snapshot.",
+      "'git revert <commit>': Creates a brand NEW commit that does the exact opposite of an old commit. (Safest way to undo things already shared).",
+      "'git reset <commit>': Rewinds the history timeline completely. Be careful, this can permanently delete history if you aren't careful!"
+    ],
+    animation: CodeMorphAnimation,
+  },
+  {
+    id: 11,
+    type: "content",
+    title: "Connecting to the Cloud",
+    subtitle: "Linking your local folder to GitHub.",
+    points: [
+      "Once you've made local commits, you want to back them up to GitHub.",
+      "'git remote add origin <url>': Tells your local Git that 'origin' is the nickname for your GitHub URL.",
+      "'git push origin main': Uploads your 'main' branch to the 'origin' remote.",
+      "Think of push as 'uploading' your commits to the internet."
+    ],
+    animation: BuildingBlocksAnimation,
+  },
+  {
+    id: 12,
+    type: "content",
+    title: "Keeping Up to Date",
+    subtitle: "How to get the latest code from your team.",
+    points: [
+      "When working with others, the code on GitHub changes constantly. You need to pull those changes to your laptop.",
+      "'git fetch' acts like a scout. It checks GitHub for new changes and downloads them, but doesn't mix them into your work yet.",
+      "'git pull' is the main tool. It downloads the newest code AND instantly merges it into your current branch.",
+      "Golden Rule: Always run 'git pull' before you start working and before you push, to ensure you are building on the latest version."
+    ],
+    animation: SetupChecklistAnimation,
+  },
+  {
+    id: 13,
+    type: "content",
+    title: "Merge Conflicts: Don't Panic",
+    subtitle: "What happens when two people edit the exact same line of code?",
+    points: [
+      "A 'Merge Conflict' is just Git asking for your help. It stops and says: 'Hey, I can't merge this automatically. Which version should I keep?'",
+      "Git will highlight the problem in your files using special markers (<<<<<<<, =======, >>>>>>>).",
+      "How to fix it: Just open the file, delete the version of the code you DON'T want, and delete Git's markers.",
+      "Once the code looks exactly how you want it, run 'git add' and 'git commit' to tell Git the conflict is solved."
+    ],
+    animation: BuildingBlocksAnimation,
+  },
+  {
+    id: 14,
+    type: "interactive-workflow",
+    title: "The Open Source Workflow",
+    subtitle: "The standard \"Fork & Pull\" model explained:",
+    animation: JSXTransformAnimation,
+  }
 ]
 
 export default function Presentation() {
@@ -123,10 +199,21 @@ export default function Presentation() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === " ") {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        if (e.key === "ArrowUp") {
+          e.preventDefault()
+          prevSlide()
+        } else if (e.key === "ArrowDown") {
+          e.preventDefault()
+          nextSlide()
+        }
+        return
+      }
+
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "ArrowDown") {
         e.preventDefault()
         nextSlide()
-      } else if (e.key === "ArrowLeft") {
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
         e.preventDefault()
         prevSlide()
       } else if (e.key === "o" || e.key === "O") {
@@ -173,12 +260,12 @@ export default function Presentation() {
   const SlideAnimation = slide.animation
 
   return (
-    <div className="h-screen w-screen bg-gradient-to-br from-purple-100 via-purple-50 to-cyan-50 text-foreground flex flex-col relative overflow-hidden">
+    <div className="h-screen w-screen bg-gradient-to-br from-slate-50 via-blue-50 to-orange-50 text-foreground flex flex-col relative overflow-hidden">
       <FloatingParticles />
 
-      <div className="absolute top-0 left-0 right-0 h-1 bg-purple-200/30 z-50">
+      <div className="absolute top-0 left-0 right-0 h-1 bg-blue-200/30 z-50">
         <div
-          className="h-full bg-gradient-to-r from-purple-500 to-cyan-400 transition-all duration-300 ease-out origin-left"
+          className="h-full bg-gradient-to-r from-blue-600 to-orange-400 transition-all duration-300 ease-out origin-left"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -206,27 +293,27 @@ export default function Presentation() {
         >
           {slide.type === "title" && (
             <div className="text-center space-y-8">
-              <h1 className="text-5xl md:text-7xl font-bold text-balance leading-tight bg-gradient-to-r from-gray-900 via-purple-900 to-gray-900 bg-clip-text text-transparent animate-fade-in">
+              <h1 className="text-5xl md:text-7xl font-bold text-balance leading-tight bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 bg-clip-text text-transparent animate-fade-in">
                 {slide.title}
               </h1>
-              <p className="text-2xl md:text-3xl text-purple-600 font-semibold animate-fade-in-delay-1">{slide.subtitle}</p>
+              <p className="text-2xl md:text-3xl text-blue-600 font-semibold animate-fade-in-delay-1">{slide.subtitle}</p>
 
               {(slide.visualSuggestion || slide.speakerNotes?.length) && (
                 <div className="max-w-4xl mx-auto text-left space-y-4">
                   {slide.visualSuggestion && (
-                    <div className="bg-cyan-50/80 border-2 border-cyan-200 rounded-lg p-4 shadow-md">
-                      <p className="text-sm uppercase tracking-wide text-cyan-700 font-semibold mb-1">Visual Suggestion</p>
+                    <div className="bg-orange-50/80 border-2 border-orange-200 rounded-lg p-4 shadow-md">
+                      <p className="text-sm uppercase tracking-wide text-orange-700 font-semibold mb-1">Visual Suggestion</p>
                       <p className="text-lg text-gray-800">{slide.visualSuggestion}</p>
                     </div>
                   )}
 
                   {slide.speakerNotes?.length ? (
-                    <div className="bg-purple-50/80 border-2 border-purple-200 rounded-lg p-4 shadow-md">
-                      <p className="text-sm uppercase tracking-wide text-purple-700 font-semibold mb-2">Speaker Notes</p>
+                    <div className="bg-blue-50/80 border-2 border-blue-200 rounded-lg p-4 shadow-md">
+                      <p className="text-sm uppercase tracking-wide text-blue-700 font-semibold mb-2">Speaker Notes</p>
                       <ul className="space-y-2 text-base md:text-lg">
                         {slide.speakerNotes.map((note, index) => (
                           <li key={index} className="flex items-start gap-3 text-gray-800">
-                            <span className="text-purple-500 font-bold mt-0.5">•</span>
+                            <span className="text-blue-500 font-bold mt-0.5">•</span>
                             <span>{note}</span>
                           </li>
                         ))}
@@ -241,10 +328,10 @@ export default function Presentation() {
           {slide.type === "content" && (
             <div className="space-y-8">
               <div className="animate-fade-in">
-                <h2 className="text-4xl md:text-6xl font-bold text-balance mb-4 bg-gradient-to-r from-gray-900 to-purple-800 bg-clip-text text-transparent">
+                <h2 className="text-4xl md:text-6xl font-bold text-balance mb-4 bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">
                   {slide.title}
                 </h2>
-                {slide.subtitle && <p className="text-xl md:text-2xl text-purple-600 font-medium">{slide.subtitle}</p>}
+                {slide.subtitle && <p className="text-xl md:text-2xl text-blue-600 font-medium">{slide.subtitle}</p>}
               </div>
 
               <ul className="space-y-4 text-xl md:text-2xl">
@@ -253,28 +340,34 @@ export default function Presentation() {
                     key={index}
                     className={`flex items-start gap-4 animate-fade-in-delay-${Math.min(index + 1, 5)} hover:translate-x-2 transition-transform duration-200`}
                   >
-                    <span className="text-purple-500 mt-1 text-2xl font-bold">▸</span>
+                    <span className="text-blue-500 mt-1 text-2xl font-bold">▸</span>
                     <span className="text-pretty text-gray-800">{point}</span>
                   </li>
                 ))}
               </ul>
 
-              {(slide.visualSuggestion || slide.speakerNotes?.length) && (
-                <div className="grid md:grid-cols-2 gap-4 animate-fade-in-delay-3">
+              {(slide.visualSuggestion || slide.visualComponent || slide.speakerNotes?.length) && (
+                <div className={`grid gap-4 animate-fade-in-delay-3 w-full ${slide.speakerNotes?.length && (slide.visualSuggestion || slide.visualComponent) ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
                   {slide.visualSuggestion && (
-                    <div className="bg-cyan-50/80 border-2 border-cyan-200 rounded-lg p-4 shadow-md">
-                      <p className="text-xs uppercase tracking-wide text-cyan-700 font-semibold mb-2">Visual Suggestion</p>
+                    <div className="bg-orange-50/80 border-2 border-orange-200 rounded-lg p-4 shadow-md">
+                      <p className="text-xs uppercase tracking-wide text-orange-700 font-semibold mb-2">Visual Suggestion</p>
                       <p className="text-lg text-gray-800">{slide.visualSuggestion}</p>
                     </div>
                   )}
 
+                  {slide.visualComponent && (
+                    <div className="w-full flex justify-center mt-4">
+                      <slide.visualComponent />
+                    </div>
+                  )}
+
                   {slide.speakerNotes?.length ? (
-                    <div className="bg-purple-50/80 border-2 border-purple-200 rounded-lg p-4 shadow-md">
-                      <p className="text-xs uppercase tracking-wide text-purple-700 font-semibold mb-2">Speaker Notes</p>
+                    <div className="bg-blue-50/80 border-2 border-blue-200 rounded-lg p-4 shadow-md">
+                      <p className="text-xs uppercase tracking-wide text-blue-700 font-semibold mb-2">Speaker Notes</p>
                       <ul className="space-y-2 text-base md:text-lg">
                         {slide.speakerNotes.map((note, index) => (
                           <li key={index} className="flex items-start gap-3 text-gray-800">
-                            <span className="text-purple-500 font-bold mt-0.5">•</span>
+                            <span className="text-blue-500 font-bold mt-0.5">•</span>
                             <span>{note}</span>
                           </li>
                         ))}
@@ -288,7 +381,7 @@ export default function Presentation() {
 
           {slide.type === "conclusion" && (
             <div className="space-y-8">
-              <h2 className="text-4xl md:text-6xl font-bold text-balance mb-8 bg-gradient-to-r from-gray-900 to-purple-800 bg-clip-text text-transparent animate-fade-in">
+              <h2 className="text-4xl md:text-6xl font-bold text-balance mb-8 bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent animate-fade-in">
                 {slide.title}
               </h2>
 
@@ -298,34 +391,40 @@ export default function Presentation() {
                     key={index}
                     className={`flex items-start gap-4 animate-fade-in-delay-${Math.min(index + 1, 5)} hover:translate-x-2 transition-transform duration-200`}
                   >
-                    <span className="text-cyan-500 mt-1 text-2xl font-bold">▸</span>
+                    <span className="text-orange-500 mt-1 text-2xl font-bold">▸</span>
                     <span className="text-pretty text-gray-800">{point}</span>
                   </li>
                 ))}
               </ul>
 
               {slide.footer && (
-                <p className="text-3xl md:text-4xl font-bold text-center mt-16 bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent animate-fade-in-delay-4">
+                <p className="text-3xl md:text-4xl font-bold text-center mt-16 bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent animate-fade-in-delay-4">
                   {slide.footer}
                 </p>
               )}
 
-              {(slide.visualSuggestion || slide.speakerNotes?.length) && (
-                <div className="grid md:grid-cols-2 gap-4 animate-fade-in-delay-3">
+              {(slide.visualSuggestion || slide.visualComponent || slide.speakerNotes?.length) && (
+                <div className={`grid gap-4 animate-fade-in-delay-3 w-full ${slide.speakerNotes?.length && (slide.visualSuggestion || slide.visualComponent) ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
                   {slide.visualSuggestion && (
-                    <div className="bg-cyan-50/80 border-2 border-cyan-200 rounded-lg p-4 shadow-md">
-                      <p className="text-xs uppercase tracking-wide text-cyan-700 font-semibold mb-2">Visual Suggestion</p>
+                    <div className="bg-orange-50/80 border-2 border-orange-200 rounded-lg p-4 shadow-md">
+                      <p className="text-xs uppercase tracking-wide text-orange-700 font-semibold mb-2">Visual Suggestion</p>
                       <p className="text-lg text-gray-800">{slide.visualSuggestion}</p>
                     </div>
                   )}
 
+                  {slide.visualComponent && (
+                    <div className="w-full flex justify-center mt-4">
+                      <slide.visualComponent />
+                    </div>
+                  )}
+
                   {slide.speakerNotes?.length ? (
-                    <div className="bg-purple-50/80 border-2 border-purple-200 rounded-lg p-4 shadow-md">
-                      <p className="text-xs uppercase tracking-wide text-purple-700 font-semibold mb-2">Speaker Notes</p>
+                    <div className="bg-blue-50/80 border-2 border-blue-200 rounded-lg p-4 shadow-md">
+                      <p className="text-xs uppercase tracking-wide text-blue-700 font-semibold mb-2">Speaker Notes</p>
                       <ul className="space-y-2 text-base md:text-lg">
                         {slide.speakerNotes.map((note, index) => (
                           <li key={index} className="flex items-start gap-3 text-gray-800">
-                            <span className="text-purple-500 font-bold mt-0.5">•</span>
+                            <span className="text-blue-500 font-bold mt-0.5">•</span>
                             <span>{note}</span>
                           </li>
                         ))}
@@ -336,17 +435,61 @@ export default function Presentation() {
               )}
             </div>
           )}
+
+          {slide.type === "interactive-sandbox" && (
+            <div className="space-y-6 h-[70vh] flex flex-col">
+              <div className="animate-fade-in text-center flex-shrink-0">
+                <h2 className="text-4xl md:text-5xl font-bold text-balance mb-2 bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">
+                  {slide.title}
+                </h2>
+                {slide.points?.map((point, i) => (
+                  <p key={i} className="text-gray-600 text-lg font-medium">{point}</p>
+                ))}
+              </div>
+              <div className="flex-1 min-h-0 bg-white/50 p-2 rounded-2xl shadow-xl border border-slate-200">
+                <InteractiveTerminal />
+              </div>
+            </div>
+          )}
+
+          {slide.type === "interactive-branching" && (
+            <div className="space-y-6 h-[70vh] flex flex-col">
+              <div className="animate-fade-in text-center flex-shrink-0">
+                <h2 className="text-4xl md:text-5xl font-bold text-balance mb-2 bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">
+                  {slide.title}
+                </h2>
+                <p className="text-gray-600 text-lg font-medium">{slide.subtitle}</p>
+              </div>
+              <div className="flex-1 min-h-0 bg-white/50 p-2 rounded-2xl shadow-xl border border-slate-200">
+                <InteractiveBranching />
+              </div>
+            </div>
+          )}
+
+          {slide.type === "interactive-workflow" && (
+            <div className="space-y-6 h-[70vh] flex flex-col">
+              <div className="animate-fade-in text-center flex-shrink-0">
+                <h2 className="text-4xl md:text-5xl font-bold text-balance mb-2 bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">
+                  {slide.title}
+                </h2>
+                <p className="text-gray-600 text-lg font-medium">{slide.subtitle}</p>
+              </div>
+              <div className="flex-1 min-h-0 bg-white/50 p-2 rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+                <InteractiveWorkflow />
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="border-t border-purple-200 backdrop-blur-sm bg-white/80 p-4 md:p-6 flex items-center justify-between relative z-20">
+      <div className="border-t border-blue-200 backdrop-blur-sm bg-white/80 p-4 md:p-6 flex items-center justify-between relative z-20">
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             size="lg"
             onClick={prevSlide}
             disabled={currentSlide === 0}
-            className="gap-2 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200 hover:scale-105"
+            className="gap-2 hover:bg-blue-100 hover:text-blue-700 transition-all duration-200 hover:scale-105"
           >
             <ChevronLeft className="h-5 w-5" />
             <span className="hidden sm:inline">Previous</span>
@@ -357,7 +500,7 @@ export default function Presentation() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="hover:bg-purple-100 hover:text-purple-700 transition-all duration-200"
+                className="hover:bg-blue-100 hover:text-blue-700 transition-all duration-200"
               >
                 <Grid3x3 className="h-5 w-5" />
               </Button>
@@ -372,10 +515,10 @@ export default function Presentation() {
                     key={s.id}
                     onClick={() => goToSlide(index)}
                     className={`p-4 rounded-lg border-2 text-left transition-all duration-200 hover:scale-105 ${
-                      index === currentSlide ? "border-purple-500 bg-purple-50" : "border-purple-200 hover:border-purple-400"
+                      index === currentSlide ? "border-blue-500 bg-blue-50" : "border-blue-200 hover:border-blue-400"
                     }`}
                   >
-                    <div className="text-xs text-purple-600 mb-2">Slide {index + 1}</div>
+                    <div className="text-xs text-blue-600 mb-2">Slide {index + 1}</div>
                     <div className="font-semibold text-sm line-clamp-2 text-gray-800">{s.title}</div>
                   </button>
                 ))}
@@ -392,16 +535,16 @@ export default function Presentation() {
                 onClick={() => goToSlide(index)}
                 className={`h-2 rounded-full transition-all duration-300 hover:scale-125 ${
                   index === currentSlide
-                    ? "w-8 bg-gradient-to-r from-purple-500 to-cyan-400"
+                    ? "w-8 bg-gradient-to-r from-blue-600 to-orange-400"
                     : index < currentSlide
-                      ? "w-2 bg-purple-300"
-                      : "w-2 bg-purple-200"
+                      ? "w-2 bg-blue-300"
+                      : "w-2 bg-blue-200"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>
-          <div className="text-purple-700 font-mono text-sm bg-purple-100 px-3 py-1 rounded-full font-semibold">
+          <div className="text-blue-700 font-mono text-sm bg-blue-100 px-3 py-1 rounded-full font-semibold">
             {currentSlide + 1} / {slides.length}
           </div>
         </div>
@@ -411,7 +554,7 @@ export default function Presentation() {
           size="lg"
           onClick={nextSlide}
           disabled={currentSlide === slides.length - 1}
-          className="gap-2 hover:bg-cyan-100 hover:text-cyan-700 transition-all duration-200 hover:scale-105"
+          className="gap-2 hover:bg-orange-100 hover:text-orange-700 transition-all duration-200 hover:scale-105"
         >
           <span className="hidden sm:inline">Next</span>
           <ChevronRight className="h-5 w-5" />
