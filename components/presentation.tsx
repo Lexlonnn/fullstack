@@ -14,27 +14,26 @@ import {
   ComponentNestingAnimation,
   JSXTransformAnimation,
 } from "@/components/slide-animations"
-import InteractiveTerminal from "@/components/interactive-terminal"
-import InteractiveBranching from "@/components/interactive-branching"
-import InteractiveWorkflow from "@/components/interactive-workflow"
-import { 
-  GitVsGithubVisual, 
-  ConfigTerminalVisual, 
-  VersionControlVisual, 
-  BadVsGoodVersionControlVisual, 
-  InstallGitVisual, 
-  InitRepoVisual, 
-  GitWorkflowVisual, 
-  ReviewHistoryVisual, 
-  MergeAnimationVisual, 
-  ConnectingGithubVisual, 
-  PushAnimationVisual, 
-  CloneAnimationVisual 
+import {
+  ArchitectureDiagramVisual,
+  InternetWorksVisual,
+  FrontendVisual,
+  BackendFlowVisual,
+  DatabaseVisual,
+  RequestFlowVisual,
+  AuthFlowVisual,
+  FolderStructureVisual,
+  DevToolsVisual,
+  LifecycleVisual,
+  DeploymentPipelineVisual,
+  TeamWorkflowVisual,
+  CareerRoadmapVisual,
+  ApiTestingVisual,
 } from "@/components/slide-visuals"
 
 type Slide = {
   id: number
-  type: "title" | "content" | "conclusion" | "interactive-sandbox" | "interactive-branching" | "interactive-workflow"
+  type: "title" | "content" | "conclusion"
   title: string
   subtitle?: string
   points?: string[]
@@ -49,173 +48,209 @@ const slides: Slide[] = [
   {
     id: 1,
     type: "title",
-    title: "Git & GitHub: The Essentials",
-    subtitle: "Version control and collaboration made simple.",
+    title: "Introduction to Full Stack Development",
+    subtitle: "Modern Web Development",
     points: [
-      "What is Git?",
-      "What is GitHub?",
-      "Why should we learn it?"
+      "Your Name",
+      "Designation"
     ],
     animation: CodeMorphAnimation,
   },
   {
     id: 2,
     type: "content",
-    title: "Why Version Control?",
-    subtitle: "The problem with naming files 'Project_final_REAL.doc'",
-    visualComponent: BadVsGoodVersionControlVisual,
-    animation: JSXTransformAnimation,
+    title: "What is Full Stack Development?",
+    points: [
+      "Frontend: The interface users interact with.",
+      "Backend: The server logic and architecture.",
+      "Database: Where all the data is securely stored.",
+      "APIs: The bridge connecting the frontend to the backend.",
+      "Full Stack Developer: Someone who can build it all from end to end."
+    ],
+    visualComponent: ArchitectureDiagramVisual,
+    animation: BuildingBlocksAnimation,
   },
   {
     id: 3,
     type: "content",
-    title: "Git vs. GitHub",
-    subtitle: "They sound similar, but they do completely different jobs.",
+    title: "How the Internet Works",
+    subtitle: "The journey of a web request.",
     points: [
-      "Git = Tool (The Engine on your Laptop)",
-      "GitHub = Website (The Cloud hosting your code)"
+      "You type a URL, the Browser sends an HTTP Request.",
+      "The Server receives it, processes it, and might ask the Database for info.",
+      "The Server sends an HTTP Response back with the UI or data."
     ],
-    visualComponent: GitVsGithubVisual,
-    animation: BuildingBlocksAnimation,
+    visualComponent: InternetWorksVisual,
+    animation: SpeedIndicatorsAnimation,
   },
   {
     id: 4,
     type: "content",
-    title: "Install Git",
-    subtitle: "Before using Git, we need to install it.",
-    visualComponent: InstallGitVisual,
-    animation: SetupChecklistAnimation,
+    title: "Frontend Development",
+    subtitle: "Building what the user sees.",
+    points: [
+      "HTML & CSS for structure and styling.",
+      "JavaScript makes it interactive.",
+      "React & Next.js to build reusable UI Components.",
+      "Managing State (data changing over time) and Routing (pages)."
+    ],
+    visualComponent: FrontendVisual,
+    animation: ComponentBoxesAnimation,
   },
   {
     id: 5,
     type: "content",
-    title: "Configure Git",
-    subtitle: "Before taking a snapshot, Git needs to know who is holding the camera.",
+    title: "Backend Data Flow",
+    subtitle: "The pipeline of a server request.",
     points: [
-      "Every time you save a snapshot (commit), Git attaches your name and email to it.",
-      "You only need to run these setup commands once on your computer."
+      "Router: Directs the incoming HTTP request to the right place.",
+      "Middleware: Intercepts the request to check Auth or format data.",
+      "Controller: Handles the core business logic of the request.",
+      "Service/DB: Interacts with the database and returns data back up the chain."
     ],
-    visualComponent: ConfigTerminalVisual,
-    animation: SetupChecklistAnimation,
+    visualComponent: BackendFlowVisual,
+    animation: CodeMorphAnimation,
+  },
+  {
+    id: 5.5,
+    type: "content",
+    title: "API Endpoints & Testing",
+    subtitle: "How we interact with the backend.",
+    points: [
+      "Endpoints: Specific URLs on the server that perform specific actions (like /api/users).",
+      "Methods: GET (read), POST (create), PUT (update), DELETE (remove).",
+      "API Clients: Developers use tools like Postman or Insomnia to test endpoints.",
+      "Responses: The server replies with a Status Code (e.g. 200 OK) and a JSON payload."
+    ],
+    visualComponent: ApiTestingVisual,
+    animation: CodeMorphAnimation,
   },
   {
     id: 6,
     type: "content",
-    title: "Create Your First Repository",
-    subtitle: "A repository is simply a project that Git is tracking.",
-    visualComponent: InitRepoVisual,
-    animation: ComponentBoxesAnimation,
+    title: "Databases",
+    subtitle: "Storing everything safely.",
+    points: [
+      "SQL (PostgreSQL, MySQL): Data in strict Tables and Relationships.",
+      "NoSQL (MongoDB): Data in flexible JSON-like Documents."
+    ],
+    visualComponent: DatabaseVisual,
+    animation: ComponentNestingAnimation,
   },
   {
     id: 7,
     type: "content",
-    title: "Git Workflow",
-    subtitle: "The core concept of moving files.",
-    visualComponent: GitWorkflowVisual,
+    title: "The Data Journey",
+    subtitle: "How frontend and backend talk.",
+    points: [
+      "UI Action: User submits a form (Frontend State).",
+      "Network: Data is converted to JSON and sent over HTTP (Fetch/Axios).",
+      "Processing: Backend receives JSON, validates it, and updates Database.",
+      "Resolution: Backend sends back a JSON response updating the Frontend UI."
+    ],
+    visualComponent: RequestFlowVisual,
     animation: SpeedIndicatorsAnimation,
   },
   {
     id: 8,
-    type: "interactive-sandbox",
-    title: "First Commit",
+    type: "content",
+    title: "Authentication",
+    subtitle: "Verifying who you are.",
     points: [
-      "Try moving files to the Staging Area, and then taking a Snapshot (Commit).",
-      "Hint: use 'git add .' and 'git commit -m \"message\"'."
+      "Passwords are NEVER saved as plain text. We use Password Hashing.",
+      "Once verified, the server gives you a JWT (JSON Web Token).",
+      "You show this token to access Protected Routes."
     ],
-    animation: SpeedIndicatorsAnimation,
+    visualComponent: AuthFlowVisual,
+    animation: SetupChecklistAnimation,
   },
   {
     id: 9,
     type: "content",
-    title: "Reviewing History",
-    subtitle: "Seeing what changed and who changed it.",
+    title: "Folder Structure",
+    subtitle: "How a professional project is organized.",
     points: [
-      "'git log': Shows a list of all the commits (snapshots) made in the project.",
-      "'git log --oneline': A compact view of the history timeline."
+      "Separating concerns is vital for large projects.",
+      "Frontend focuses on UI components and hooks.",
+      "Backend focuses on routes, controllers, and models."
     ],
-    visualComponent: ReviewHistoryVisual,
+    visualComponent: FolderStructureVisual,
     animation: ComponentBoxesAnimation,
   },
   {
     id: 10,
-    type: "interactive-branching",
-    title: "Branching",
-    subtitle: "Safe parallel universes for your code.",
-    animation: ComponentNestingAnimation,
+    type: "content",
+    title: "Development Tools",
+    subtitle: "The modern developer's toolkit.",
+    points: [
+      "VS Code, Git, GitHub for writing and saving code.",
+      "Node.js, npm, React, Next.js for building.",
+      "PostgreSQL, Prisma, Supabase for data.",
+      "Docker, Postman, AI Assistants for testing and deployment."
+    ],
+    visualComponent: DevToolsVisual,
+    animation: BuildingBlocksAnimation,
   },
   {
     id: 11,
     type: "content",
-    title: "Merge",
-    subtitle: "Combining parallel universes back together.",
-    visualComponent: MergeAnimationVisual,
-    animation: CodeMorphAnimation,
+    title: "Building a Real Project",
+    subtitle: "The development lifecycle.",
+    points: [
+      "Start with an Idea and UI Design.",
+      "Build Frontend UI -> Connect to Backend APIs -> Store in Database.",
+      "Test thoroughly -> Deploy for Users."
+    ],
+    visualComponent: LifecycleVisual,
+    animation: JSXTransformAnimation,
   },
   {
     id: 12,
     type: "content",
-    title: "Merge Conflicts",
-    subtitle: "What happens when two people edit the exact same line of code?",
+    title: "Deployment",
+    subtitle: "Going live to the world.",
     points: [
-      "A 'Merge Conflict' is just Git asking for your help. It stops and says: 'Which version should I keep?'",
-      "Git highlights the problem in your files using special markers (<<<<<<<, =======, >>>>>>>).",
-      "Just delete the code you DON'T want, remove the markers, then commit."
+      "Frontend Hosting (Vercel, Netlify) serves the UI fast.",
+      "Backend Hosting (Render, AWS) runs the logic continuously.",
+      "Environment Variables keep our database passwords secret.",
+      "A custom Domain Name connects it all together."
     ],
-    animation: BuildingBlocksAnimation,
+    visualComponent: DeploymentPipelineVisual,
+    animation: SpeedIndicatorsAnimation,
   },
   {
     id: 13,
     type: "content",
-    title: "Ignoring Files: .gitignore",
-    subtitle: "Some things should stay secret or stay local.",
+    title: "Industry Workflow",
+    subtitle: "How teams work together.",
     points: [
-      "node_modules: Massive downloaded library folders.",
-      ".env: Password files and secret API keys.",
-      "build / dist: Compiled code that can be regenerated."
+      "Large apps are built by specialized teams collaborating closely."
     ],
-    animation: SetupChecklistAnimation,
+    visualComponent: TeamWorkflowVisual,
+    animation: ComponentBoxesAnimation,
   },
   {
     id: 14,
     type: "content",
-    title: "Connecting to GitHub",
-    subtitle: "Linking your local folder to the cloud.",
-    visualComponent: ConnectingGithubVisual,
-    animation: SpeedIndicatorsAnimation,
-  },
-  {
-    id: 15,
-    type: "content",
-    title: "Push",
-    subtitle: "Uploading your commits to the internet.",
-    visualComponent: PushAnimationVisual,
+    title: "Career Roadmap",
+    subtitle: "Your path to Full Stack.",
+    points: [
+      "Don't learn everything at once. Master the basics first.",
+      "Build a strong frontend foundation before moving to servers."
+    ],
+    visualComponent: CareerRoadmapVisual,
     animation: CodeMorphAnimation,
   },
   {
-    id: 16,
-    type: "content",
-    title: "Clone",
-    subtitle: "Downloading an existing repository to your laptop.",
-    visualComponent: CloneAnimationVisual,
-    animation: BuildingBlocksAnimation,
-  },
-  {
-    id: 17,
-    type: "content",
-    title: "Pull vs Fetch",
-    subtitle: "How to get the latest code from your team.",
+    id: 15,
+    type: "conclusion",
+    title: "Thank You",
     points: [
-      "Fetch: Download only. Checks GitHub for new changes and downloads them, but doesn't mix them into your work yet.",
-      "Pull: Download + Merge. Downloads the newest code AND instantly merges it into your current branch."
+      "Any Questions?",
+      "Contact: your.email@example.com",
+      "GitHub: @yourusername"
     ],
-    animation: SetupChecklistAnimation,
-  },
-  {
-    id: 18,
-    type: "interactive-workflow",
-    title: "The Open Source Workflow",
-    subtitle: "Fork -> Clone -> Branch -> Commit -> Push -> Pull Request -> Merge",
-    animation: JSXTransformAnimation,
+    animation: ComponentNestingAnimation,
   }
 ]
 
@@ -452,49 +487,6 @@ export default function Presentation() {
             </div>
           )}
 
-          {slide.type === "interactive-sandbox" && (
-            <div className="space-y-6 h-[70vh] flex flex-col">
-              <div className="animate-fade-in text-center flex-shrink-0">
-                <h2 className="text-4xl md:text-5xl font-bold text-balance mb-2 bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">
-                  {slide.title}
-                </h2>
-                {slide.points?.map((point, i) => (
-                  <p key={i} className="text-gray-600 text-lg font-medium">{point}</p>
-                ))}
-              </div>
-              <div className="flex-1 min-h-0 bg-white/50 p-2 rounded-2xl shadow-xl border border-slate-200">
-                <InteractiveTerminal />
-              </div>
-            </div>
-          )}
-
-          {slide.type === "interactive-branching" && (
-            <div className="space-y-6 h-[70vh] flex flex-col">
-              <div className="animate-fade-in text-center flex-shrink-0">
-                <h2 className="text-4xl md:text-5xl font-bold text-balance mb-2 bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">
-                  {slide.title}
-                </h2>
-                <p className="text-gray-600 text-lg font-medium">{slide.subtitle}</p>
-              </div>
-              <div className="flex-1 min-h-0 bg-white/50 p-2 rounded-2xl shadow-xl border border-slate-200">
-                <InteractiveBranching />
-              </div>
-            </div>
-          )}
-
-          {slide.type === "interactive-workflow" && (
-            <div className="space-y-6 h-[70vh] flex flex-col">
-              <div className="animate-fade-in text-center flex-shrink-0">
-                <h2 className="text-4xl md:text-5xl font-bold text-balance mb-2 bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">
-                  {slide.title}
-                </h2>
-                <p className="text-gray-600 text-lg font-medium">{slide.subtitle}</p>
-              </div>
-              <div className="flex-1 min-h-0 bg-white/50 p-2 rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-                <InteractiveWorkflow />
-              </div>
-            </div>
-          )}
         </div>
       </div>
 

@@ -2,7 +2,7 @@
 
 import { useNavigate, Route, Routes } from "react-router-dom"
 import { Button } from "@mui/material"
-import Counter from "./components/Counter"
+
 
 function App() {
   const navigate = useNavigate()
@@ -16,7 +16,7 @@ function App() {
 
       {/* Routes */}
       <Routes>
-        <Route path="/count" element={<Counter />} />
+        <Route path="/count" element={<div>Counter goes here</div>} />
       </Routes>
     </>
   )
