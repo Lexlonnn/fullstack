@@ -8,8 +8,8 @@ import { Suspense } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Git and GitHub Basics",
-  description: "An interactive presentation to learn Git and GitHub.",
+  title: "Full Stack Development",
+  description: "An interactive presentation introducing Full Stack Web Development.",
 }
 
 export default function RootLayout({

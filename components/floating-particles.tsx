@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Laptop, Github } from "lucide-react"
+import { Database, Server, Code2, Globe, Cpu, Terminal } from "lucide-react"
 
 interface Particle {
   id: number
@@ -27,31 +27,20 @@ export default function FloatingParticles() {
       duration: Math.random() * 25 + 20, // 20-45s
       delay: Math.random() * 5, // 0-5s
       rotation: Math.random() * 360,
-      type: i % 4, // Ensure even distribution across the 4 types
+      type: i % 6, // Ensure even distribution across the 6 types
     }))
     setParticles(newParticles)
   }, [])
 
   const renderParticleIcon = (type: number) => {
     switch (type) {
-      case 0: return <Laptop className="w-full h-full" />
-      case 1: return (
-        <svg viewBox="0 0 128 128" className="w-full h-full" fill="currentColor">
-          <path d="M124.4 60.5l-57-57c-4.8-4.8-12.5-4.8-17.3 0L33 20.6l21.2 21.2c3.4-1.2 7.4-.3 10 2.2 2.6 2.6 3.4 6.5 2.2 10l19.5 19.5c3.5-1.2 7.4-.3 10 2.2 3.8 3.8 3.8 10 0 13.8-3.8 3.8-10 3.8-13.8 0-2.6-2.6-3.4-6.5-2.2-10L61 60.5v28.4c1.2 3.5.3 7.4-2.2 10-3.8 3.8-10 3.8-13.8 0-3.8-3.8-3.8-10 0-13.8 2.6-2.6 6.5-3.4 10-2.2V51.8c-3.5-1.2-7.4-.3-10 2.2-3.8 3.8-3.8 10 0 13.8 3.8 3.8 10 3.8 13.8 0 2.6-2.6 3.4-6.5 2.2-10l20.8-20.8 18.5 18.5c4.8 4.8 12.5 4.8 17.3 0 4.8-4.7 4.8-12.4 0-17.2z"/>
-        </svg>
-      )
-      case 2: return <Github className="w-full h-full" />
-      case 3: return (
-        <svg viewBox="0 0 100 80" className="w-full h-full" fill="currentColor">
-          <rect x="2" y="2" width="96" height="76" rx="8" fill="currentColor" fillOpacity="0.1" stroke="currentColor" strokeWidth="4"/>
-          <circle cx="15" cy="15" r="3" fill="currentColor"/>
-          <circle cx="25" cy="15" r="3" fill="currentColor"/>
-          <circle cx="35" cy="15" r="3" fill="currentColor"/>
-          <rect x="15" y="30" width="40" height="4" rx="2" fill="currentColor"/>
-          <rect x="15" y="42" width="70" height="4" rx="2" fill="currentColor"/>
-          <rect x="15" y="54" width="50" height="4" rx="2" fill="currentColor"/>
-        </svg>
-      )
+      case 0: return <Database className="w-full h-full" />
+      case 1: return <Server className="w-full h-full" />
+      case 2: return <Code2 className="w-full h-full" />
+      case 3: return <Globe className="w-full h-full" />
+      case 4: return <Cpu className="w-full h-full" />
+      case 5: return <Terminal className="w-full h-full" />
+      default: return <Database className="w-full h-full" />
     }
   }
 
